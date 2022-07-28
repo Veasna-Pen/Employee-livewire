@@ -4,10 +4,13 @@ namespace App\Http\Livewire\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Hash;
 
 class UserIndex extends Component
 {
+    use WithPagination;
+    
     public $search = '';
     public $username, $firstName, $lastName, $email, $password;
     public $userId;
@@ -32,7 +35,7 @@ class UserIndex extends Component
             'password' => Hash::make($this->password),
         ]);
         $this->reset();
-        $this->dispatchBrowserEvent('closeModal');
+        $this->dispatchBrowserEvent('modal', ['modalId' => '#userModal', 'actionModal' => 'hide']);
         session()->flash('user_message','Action Completed');
 
     }
@@ -46,7 +49,7 @@ class UserIndex extends Component
         //loadUser
         $this->loadUser();
         //Modal
-        $this->dispatchBrowserEvent('showModal');
+        $this->dispatchBrowserEvent('modal', ['modalId' => '#userModal', 'actionModal' => 'show']);
     }
     public function loadUser()
     {
@@ -55,6 +58,13 @@ class UserIndex extends Component
         $this->firstName = $user->first_name;
         $this->lastName = $user->last_name;
         $this->email = $user->email;
+    }
+
+    public function showUserModal()
+    {
+        $this->reset();
+        $this->dispatchBrowserEvent('modal', ['modalId' => '#userModal', 'actionModal' => 'show']);
+
     }
 
     public function updateUser()
@@ -68,7 +78,7 @@ class UserIndex extends Component
         $user = User::find($this->userId);
         $user->update($validated);
         $this->reset();
-        $this->dispatchBrowserEvent('closeModal');   
+        $this->dispatchBrowserEvent('modal', ['modalId' => '#userModal', 'actionModal' => 'hide']);
         session()->flash('user_message','Action Completed'); 
     }
 
@@ -81,16 +91,16 @@ class UserIndex extends Component
     }
 
     public function closeModal(){
-        $this->dispatchBrowserEvent('closeModal');
+        $this->dispatchBrowserEvent('modal', ['modalId' => '#userModal', 'actionModal' => 'hide']);
         $this->reset();
     }
 
     public function render()
     {
-        $users = User::all();
+        $users = User::paginate(5);
         if(strlen($this->search) > 2)
         {
-            $users = User::where('username', 'like', "%{$this->search}%")->get();
+            $users = User::where('username', 'like', "%{$this->search}%")->paginate(5);
         }
         return view('livewire.users.user-index', [
             'users' => $users

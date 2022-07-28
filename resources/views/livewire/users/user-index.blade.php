@@ -14,7 +14,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col">
-                    <form method="GET" action="{{ route('users.index') }}">
+                    <form>
                         <div class="form-row align-items-center">
                             <div class="col">
                                 <input type="search" wire:model="search" class="form-control mb-2" id="inlineFormInput"
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <button wire:click="showUserModal" class="btn btn-primary">
                         New User
                     </button>
                 </div>
@@ -63,14 +63,24 @@
                     @endforelse
                 </tbody>
             </table>
+
+            <div>
+                {{ $users->links('pagination::bootstrap-4')}}
+            </div>
         </div>
+        
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Users</h5>
+                        @if (!$editMode)
+                            <h5 class="modal-title" id="userModalLabel">Add New User</h5>
+                        @else
+                            <h5 class="modal-title" id="userModalLabel">Update User</h5>
+                        @endif
+                        
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
