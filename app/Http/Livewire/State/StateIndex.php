@@ -55,7 +55,7 @@ class StateIndex extends Component
         $this->validate();
         State::create([
            'country_id' => $this->countryId,
-           'name'         => $this->name
+           'name' => $this->name
        ]);
         $this->reset();
         $this->dispatchBrowserEvent('modal', ['modalId' => '#stateModal', 'actionModal' => 'hide']);
@@ -67,7 +67,7 @@ class StateIndex extends Component
             'countryId' => 'required',
             'name'        => 'required'
         ]);
-        $state = State::find($this->countryId);
+        $state = State::find($this->stateId);
         $state->update($validated);
         $this->reset();
         $this->dispatchBrowserEvent('modal', ['modalId' => '#stateModal', 'actionModal' => 'hide']);
