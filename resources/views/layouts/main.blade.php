@@ -20,6 +20,7 @@
         rel="stylesheet">
         
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin.min.css') }}" rel="stylesheet">
     @livewireStyles
@@ -44,7 +45,7 @@
             <hr class="sidebar-divider">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/employees">
+                <a class="nav-link" href="{{ route('employees.index') }}">
                     <span>Employee Management</span></a>
             </li>
 
@@ -172,11 +173,18 @@
     <script src="{{ asset('js/sb-admin.min.js') }}"></script>
     @stack('modals')
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
         window.addEventListener('modal', event => {
             $(event.detail.modalId).modal(event.detail.actionModal)
         })
-        </script>
+    </script>
+    <script>
+        $("#birthDate").flatpickr();
+        $("#dateHired").flatpickr();
+    </script>
+
 
 </body>
 

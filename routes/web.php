@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Users\UserIndex;
 use App\Http\Livewire\State\StateIndex;
 use App\Http\Livewire\Country\CountryIndex;
+use App\Http\Livewire\Employee\EmployeeIndex;
 use App\Http\Livewire\Department\DepartmentIndex;
 
 /*
@@ -40,4 +41,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/states', StateIndex::class)->name('states.index');
     Route::get('/cities', CityIndex::class)->name('cities.index');
     Route::get('/departments', DepartmentIndex::class)->name('departments.index');
+    Route::get('/employees', EmployeeIndex::class)->name('employees.index');
 });
